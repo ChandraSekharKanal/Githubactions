@@ -1,22 +1,19 @@
-# use ubuntu 20 AMI for EC2 instance
-data "aws_ami" "ubuntu" {
-    most_recent = true
-filter {
-        name   = "name"
-        values = ["ubuntu/images/hvm-ssd/*20.04-amd64-server-*"]
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
-filter {
-        name   = "virtualization-type"
-        values = ["hvm"]
-    }
-owners = ["188475210103"] # Canonical
+  }
 }
+
+
 # provision to us-east-2 region
 provider "aws" {
   region  = "us-east-2"
 }
 resource "aws_instance" "app_server" {
-  ami           = data.aws_ami.ubuntu.id
+  ami           = "ami-0100e595e1cc1ff7f"
   instance_type = "t3.micro"
   key_name      = "app-ssh-key"
 tags = {
